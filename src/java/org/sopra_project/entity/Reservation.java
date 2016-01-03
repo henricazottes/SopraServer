@@ -89,7 +89,7 @@ public class Reservation implements Serializable {
     }
 
     public void setRfEmployeeowner(Integer rfEmployeeowner) {
-        this.rfEmployeeowner = rfEmployeeowner;
+                this.rfEmployeeowner = rfEmployeeowner;
     }
 
     public Slot getSlot() {

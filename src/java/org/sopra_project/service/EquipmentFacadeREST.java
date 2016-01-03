@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,6 +20,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.sopra_project.entity.Equipment;
+import org.sopra_project.entity.EquipmentList;
 
 /**
  *
@@ -60,6 +62,16 @@ public class EquipmentFacadeREST extends AbstractFacade<Equipment> {
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Equipment find(@PathParam("id") String id) {
         return super.find(id);
+    }
+    
+    @GET
+    @Path("byRoom/{id}")
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    public EquipmentList findRoom(@PathParam("id") int id) {
+        Query myQuery = em.createQuery("SELECT r.roomEquipmentPK.rfEquipment FROM RoomEquipment r WHERE r.roomEquipmentPK.rfRoom = :room")
+                .setParameter("room", id);
+        
+        return new EquipmentList(myQuery.getResultList());
     }
 
     @GET
